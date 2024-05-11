@@ -27,8 +27,11 @@ const PrivateRoute = ({ children }: Props) => {
   useEffect(() => {
     try {
       const token: string = getToken()!;
-      const tokenObj = JSON.parse(token);
-      if (tokenObj === null || isPast48Hours(tokenObj.expired)) {
+      // if (tokenObj === null || isPast48Hours(tokenObj.expired)) {
+      //   message.warning("token过期,请重新登录");
+      //   navigator(`/login`);
+      // }
+      if (token === null) {
         message.warning("token过期,请重新登录");
         navigator(`/login`);
       }

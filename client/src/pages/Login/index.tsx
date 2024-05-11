@@ -2,7 +2,10 @@ import { Button, Form, Input } from "antd";
 // import { setToken } from "../../tools/auth";
 import { useNavigate } from "react-router-dom";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { loginApi } from "@/api/login";
+import type { LoginRequestData } from "@/api/login/types/login";
 import "./index.scss";
+import { setToken } from "@/tools/auth";
 
 export default function Login() {
   const navigator = useNavigate();
@@ -20,8 +23,12 @@ export default function Login() {
     navigator("/register");
   };
 
-  const onFinish = (values: unknown) => {
-    console.log("Received values of form: ", values);
+  const onFinish = async (values: LoginRequestData) => {
+    const { statusCode, data } = await loginApi(values);
+    if (statusCode === 200) {
+      setToken(data.tokens.accessToken);
+      navigator("/editor");
+    }
   };
   return (
     <div className="login-form">

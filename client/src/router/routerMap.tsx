@@ -2,7 +2,7 @@ import { Navigate } from "react-router-dom";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import User from "@/pages/User";
-import Community from "@/pages/Community";
+import Editor from "@/pages/Editor";
 import Book from "@/pages/Book";
 import Layout from "@/layout";
 import PrivateRoute from "./privateRoute";
@@ -28,8 +28,8 @@ export const routerMap = [
         element: <User />,
       },
       {
-        path: "/community",
-        element: <Community />,
+        path: "/editor",
+        element: <Editor />,
       },
       {
         path: "/book",

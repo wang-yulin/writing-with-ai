@@ -23,14 +23,14 @@ export default function Layout() {
     },
   ];
   const handleChangeRoute = (value: string) => {
-    if (value === "login") {
-      clearToken();
-    }
-    navigator(`/${value}`);
+    // if (value === "login") {
+    //   clearToken();
+    // }
+    // navigator(`/${value}`);
   };
   return (
-    <div style={{ maxWidth: "500px", margin: "0 auto" }}>
-      <div
+    <div>
+      {/* <div
         style={{
           display: "flex",
           alignItems: "center",
@@ -45,15 +45,8 @@ export default function Layout() {
             handleChangeRoute(value);
           }}
         />
-      </div>
-      <div
-        style={{
-          marginTop: "50px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      </div> */}
+      <div className="main-app">
         <Outlet />
       </div>
     </div>

@@ -2,6 +2,7 @@ import axios from "axios";
 import type { AxiosInstance } from "axios";
 import { MyRequestConfig, MyRequestInterceptors } from "./type";
 import { getToken } from "@/tools/auth";
+import { merge } from "lodash-es";
 
 class MyRequest {
   instance: AxiosInstance;
@@ -53,6 +54,13 @@ class MyRequest {
         return err;
       }
     );
+  }
+
+  request<T>(config: MyRequestConfig): Promise<ApiResponseData<T>> {
+    const defaultConfig = {};
+    // 将默认配置 defaultConfig 和传入的自定义配置 config 进行合并成为 mergeConfig
+    const mergeConfig = merge(defaultConfig, config);
+    return this.instance(mergeConfig);
   }
 }
 
