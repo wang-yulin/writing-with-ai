@@ -6,6 +6,7 @@ export const COLLECTION_NAME = 'users';
 export default interface User {
   _id: Types.ObjectId;
   username: string;
+  articles: Types.ObjectId[];
   password?: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -22,6 +23,7 @@ const schema = new Schema<User>(
       type: Schema.Types.String,
       select: false,
     },
+    articles: [{ type: Types.ObjectId, ref: 'Article' }],
     createdAt: {
       type: Schema.Types.Date,
       required: true,

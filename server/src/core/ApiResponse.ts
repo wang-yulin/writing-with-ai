@@ -2,7 +2,7 @@ import { Response } from 'express';
 
 // Helper code for the API consumer to understand the error and handle is accordingly
 enum StatusCode {
-  SUCCESS = '10000',
+  SUCCESS = 200,
   FAILURE = '10001',
   RETRY = '10002',
   INVALID_ACCESS_TOKEN = '10003',
@@ -97,7 +97,10 @@ export class FailureMsgResponse extends ApiResponse {
 }
 
 export class SuccessResponse<T> extends ApiResponse {
-  constructor(message: string, private data: T) {
+  constructor(
+    message: string,
+    private data: T,
+  ) {
     super(StatusCode.SUCCESS, ResponseStatus.SUCCESS, message);
   }
 

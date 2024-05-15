@@ -27,7 +27,7 @@ export default function Login() {
     const { statusCode, data } = await loginApi(values);
     if (statusCode === 200) {
       setToken(data.tokens.accessToken);
-      navigator("/editor");
+      navigator("/home");
     }
   };
   return (

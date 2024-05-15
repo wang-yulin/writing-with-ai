@@ -6,7 +6,7 @@ import "./index.scss";
 import { registerApi } from "@/api/register";
 import type { RegisterRequestData } from "@/api/register/types/register";
 
-export default function Login() {
+export default function Register() {
   const navigator = useNavigate();
 
   const handleLogin = () => {
@@ -15,7 +15,9 @@ export default function Login() {
 
   const onFinish = async (values: RegisterRequestData) => {
     const data = await registerApi(values);
-    console.log("Received values of form: ", data);
+    if (data.statusCode === 200) {
+      navigator("/home");
+    }
   };
   return (
     <div className="login-form">

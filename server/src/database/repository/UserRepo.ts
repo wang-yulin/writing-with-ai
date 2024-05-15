@@ -3,6 +3,7 @@ import { InternalError } from '../../core/ApiError';
 import { Types } from 'mongoose';
 import KeystoreRepo from './KeystoreRepo';
 import Keystore from '../model/Keystore';
+import Article from '../model/Article';
 
 async function exists(id: Types.ObjectId): Promise<boolean> {
   const user = await UserModel.exists({ _id: id, status: true });
@@ -20,8 +21,8 @@ async function findPrivateProfileById(
 
 // contains critical information of the user
 async function findById(id: Types.ObjectId): Promise<User | null> {
-  return UserModel.findOne({ _id: id, status: true })
-    .select('+email +password')
+  return UserModel.findOne({ _id: id })
+    .select('+username +_id +articles')
     .lean()
     .exec();
 }
@@ -38,6 +39,13 @@ async function findByEmail(email: string): Promise<User | null> {
 async function findByUsername(username: string): Promise<User | null> {
   return UserModel.findOne({ username: username })
     .select('+password ')
+    .lean()
+    .exec();
+}
+
+async function findAllArticlesForAuthor(id: Types.ObjectId) {
+  return UserModel.findOne({ _id: id })
+    .populate({ path: 'articles', options: { sort: { createdAt: -1 } } })
     .lean()
     .exec();
 }
@@ -106,4 +114,5 @@ export default {
   update,
   updateInfo,
   findByUsername,
+  findAllArticlesForAuthor,
 };

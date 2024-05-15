@@ -18,7 +18,7 @@ router.post(
   '/basic',
   validator(schema.credential),
   asyncHandler(async (req: PublicRequest, res) => {
-    const user = await UserRepo.findByEmail(req.body.email);
+    const user = await UserRepo.findByUsername(req.body.username);
     if (!user) throw new BadRequestError('用户不存在，请先注册');
     if (!user.password) throw new BadRequestError('请输入密码');
 

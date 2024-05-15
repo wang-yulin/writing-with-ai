@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
+import Home from "@/pages/Home";
 import User from "@/pages/User";
 import Editor from "@/pages/Editor";
 import Book from "@/pages/Book";
@@ -23,6 +24,10 @@ export const routerMap = [
       </PrivateRoute>
     ),
     children: [
+      {
+        path: "/home",
+        element: <Home />,
+      },
       {
         path: "/user",
         element: <User />,
