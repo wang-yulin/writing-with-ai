@@ -13,6 +13,7 @@ import {
   updateArticleApi,
 } from "@/api/article";
 import { createFeedbackApi } from "@/api/comment";
+import { marked } from "marked";
 
 export default function Community() {
   const [articles, setArticles] = useState<Article[]>();
@@ -93,6 +94,31 @@ export default function Community() {
     }
   };
 
+  const handleCopy = (content: string) => {
+    const htmlContent = marked(content) as string;
+    const hiddenHtmlElement = document.createElement("div");
+    hiddenHtmlElement.className = "wmde-markdown";
+    hiddenHtmlElement.style.position = "absolute";
+    hiddenHtmlElement.style.left = "-9999px";
+    hiddenHtmlElement.innerHTML = htmlContent;
+    document.body.appendChild(hiddenHtmlElement);
+
+    const range = document.createRange();
+    range.selectNode(hiddenHtmlElement);
+    window.getSelection()?.removeAllRanges();
+    window.getSelection()?.addRange(range);
+
+    try {
+      document.execCommand("copy");
+      console.log("Copy to clipboard succeeded.", hiddenHtmlElement);
+    } catch (err) {
+      console.error("Copy to clipboard failed.", err);
+    }
+
+    window.getSelection()?.removeAllRanges();
+    document.body.removeChild(hiddenHtmlElement);
+  };
+
   const handleAIFeedback = async (item: Article) => {
     if (!item._id) return message.info("文章不存在！");
     const { data, statusCode } = await createFeedbackApi({
@@ -109,14 +135,10 @@ export default function Community() {
       label: "提交AI反馈",
       key: "1",
     },
-    // {
-    //   label: "2nd menu item",
-    //   key: "2",
-    // },
-    // {
-    //   label: "3rd menu item",
-    //   key: "3",
-    // },
+    {
+      label: "复制",
+      key: "2",
+    },
   ];
 
   const generateOnClick = (item: Article) => (e: { key: string }) => {
@@ -126,6 +148,8 @@ export default function Community() {
   const handleDropdownClick = (key: string, item: Article) => {
     if (key === "1") {
       handleAIFeedback(item);
+    } else if (key === "2") {
+      handleCopy(item.content);
     }
   };
 
@@ -176,7 +200,6 @@ export default function Community() {
                 value={article?.content}
                 onChange={handleContentChange}
                 height="100%"
-                className="my-custom-editor"
               />
 
               {/* <MDEditor.Markdown
