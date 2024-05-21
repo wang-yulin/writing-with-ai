@@ -1,8 +1,19 @@
 .main-app {
-  margin-top: 50px;
+  // margin-top: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   height: calc(100vh - 50px);
   border-top: 1px solid rgb(208, 215, 222);
+}
+
+.main-header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 20px;
+  div {
+    cursor: pointer;
+  }
 }

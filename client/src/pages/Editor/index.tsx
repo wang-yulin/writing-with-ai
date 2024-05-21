@@ -2,8 +2,8 @@ import MDEditor from "@uiw/react-md-editor";
 import dayjs from "dayjs";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import "./index.scss";
-import { Input } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Dropdown, Input, MenuProps, Modal, message } from "antd";
+import { PlusOutlined, SettingOutlined } from "@ant-design/icons";
 import { Article } from "../../api/article/types/article";
 
 import {
@@ -12,11 +12,14 @@ import {
   getArticleByIdApi,
   updateArticleApi,
 } from "@/api/article";
+import { createFeedbackApi } from "@/api/comment";
 
 export default function Community() {
   const [articles, setArticles] = useState<Article[]>();
   const [article, setArticle] = useState<Article>({} as Article);
   const timer = useRef<ReturnType<typeof setTimeout>>();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [aiFeedback, setAiFeedback] = useState<string>("");
 
   useEffect(() => {
     getAllArticles();
@@ -90,50 +93,109 @@ export default function Community() {
     }
   };
 
-  return (
-    <div className="container">
-      <div className="left">
-        <div className="add-item" onClick={handleCreate}>
-          <PlusOutlined style={{ marginRight: "5px" }} />
-          新建文章
-        </div>
-        {articles?.map((item) => (
-          <div
-            onClick={() => handleActivate(item)}
-            className={
-              "left-item " + (article._id === item._id ? "active" : "")
-            }
-            key={item._id}
-          >
-            {item.title}
-          </div>
-        ))}
-      </div>
-      {!!articles?.length && (
-        <div className="right">
-          <Input
-            size="large"
-            showCount
-            style={{ border: "none" }}
-            maxLength={20}
-            value={article?.title}
-            placeholder="请输入标题"
-            onChange={handleTiltleChange}
-          />
-          <div className="content-area" data-color-mode="light">
-            <MDEditor
-              value={article?.content}
-              onChange={handleContentChange}
-              height="100%"
-            />
+  const handleAIFeedback = async (item: Article) => {
+    if (!item._id) return message.info("文章不存在！");
+    const { data, statusCode } = await createFeedbackApi({
+      id: item._id,
+    });
+    if (statusCode === 200) {
+      setIsModalOpen(true);
+      setAiFeedback(data);
+    }
+  };
 
-            {/* <MDEditor.Markdown
+  const items: MenuProps["items"] = [
+    {
+      label: "提交AI反馈",
+      key: "1",
+    },
+    // {
+    //   label: "2nd menu item",
+    //   key: "2",
+    // },
+    // {
+    //   label: "3rd menu item",
+    //   key: "3",
+    // },
+  ];
+
+  const generateOnClick = (item: Article) => (e: { key: string }) => {
+    handleDropdownClick(e.key, item);
+  };
+
+  const handleDropdownClick = (key: string, item: Article) => {
+    if (key === "1") {
+      handleAIFeedback(item);
+    }
+  };
+
+  return (
+    <>
+      <div className="container">
+        <div className="left">
+          <div className="add-item" onClick={handleCreate}>
+            <PlusOutlined style={{ marginRight: "5px" }} />
+            新建文章
+          </div>
+          {articles?.map((item) => (
+            <div
+              className={article._id === item._id ? "active" : ""}
+              key={item._id}
+            >
+              <div className="left-item">
+                <div
+                  title={item.title}
+                  className="left-item-title"
+                  onClick={() => handleActivate(item)}
+                >
+                  {item.title}
+                </div>
+                <Dropdown
+                  menu={{ items, onClick: generateOnClick(item) }}
+                  placement="bottom"
+                >
+                  <SettingOutlined style={{ cursor: "pointer" }} />
+                </Dropdown>
+              </div>
+            </div>
+          ))}
+        </div>
+        {!!articles?.length && (
+          <div className="right">
+            <Input
+              size="large"
+              showCount
+              style={{ border: "none", fontSize: "18px" }}
+              maxLength={64}
+              value={article?.title}
+              placeholder="请输入标题"
+              onChange={handleTiltleChange}
+            />
+            <div className="content-area" data-color-mode="light">
+              <MDEditor
+                value={article?.content}
+                onChange={handleContentChange}
+                height="100%"
+                className="my-custom-editor"
+              />
+
+              {/* <MDEditor.Markdown
             source={value}
             style={{ whiteSpace: "pre-wrap" }}
           /> */}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+      <Modal
+        maskClosable={false}
+        title="GPT如是说"
+        open={isModalOpen}
+        footer={null}
+        onCancel={() => setIsModalOpen(false)}
+      >
+        <p style={{ whiteSpace: "pre-wrap" }}>{aiFeedback}</p>
+      </Modal>
+    </>
   );
 }

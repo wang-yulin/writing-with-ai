@@ -67,8 +67,6 @@ router.post(
     );
     if (!article) throw new BadRequestError('文章不存在！');
     const data = await ArticleRepo.update(req.body);
-    console.log('1111', data);
-
     new SuccessResponse('success', '').send(res);
   }),
 );

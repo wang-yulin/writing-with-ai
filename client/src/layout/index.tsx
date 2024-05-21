@@ -9,14 +9,9 @@ export default function Layout() {
   };
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
-        }}
-      >
-        <p onClick={handleChangeRoute}>写文章</p>
+      <div className="main-header">
+        <div onClick={() => navigator("/home")}>首页</div>
+        <div onClick={handleChangeRoute}>写文章</div>
       </div>
       <div className="main-app">
         <Outlet />

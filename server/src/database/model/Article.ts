@@ -18,7 +18,7 @@ const schema = new Schema<Article>(
     title: {
       type: Schema.Types.String,
       trim: true,
-      maxlength: 20,
+      maxlength: 64,
     },
     author: {
       type: Schema.Types.ObjectId,

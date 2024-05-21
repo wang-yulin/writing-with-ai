@@ -15,12 +15,16 @@
       }
     }
     .left-item {
-      padding: 10px 5px;
-      font-size: 24px;
-      cursor: pointer;
-      text-align: center;
-      &:hover {
-        background: rgb(208, 215, 222);
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+      .left-item-title {
+        width: 150px;
+        cursor: pointer;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
       }
     }
     .active {
@@ -44,5 +48,164 @@
         box-shadow: none;
       }
     }
+  }
+}
+
+.my-custom-editor .w-md-editor-content .w-md-editor-preview {
+  /* custom-markdown.css */
+
+  /* 通用样式 */
+  .wmde-markdown {
+    font-family: "Arial", sans-serif;
+    color: #333;
+  }
+
+  /* 标题 */
+  .wmde-markdown h1 {
+    font-size: 2em;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.3em;
+    margin-bottom: 0.5em;
+    color: #1a73e8;
+  }
+
+  .wmde-markdown h2 {
+    font-size: 1.75em;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.3em;
+    margin-bottom: 0.5em;
+    color: #1a73e8;
+  }
+
+  .wmde-markdown h3 {
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+    color: #1a73e8;
+  }
+
+  .wmde-markdown h4 {
+    font-size: 1.25em;
+    margin-bottom: 0.5em;
+    color: #1a73e8;
+  }
+
+  .wmde-markdown h5 {
+    font-size: 1em;
+    margin-bottom: 0.5em;
+    color: #1a73e8;
+  }
+
+  .wmde-markdown h6 {
+    font-size: 0.875em;
+    margin-bottom: 0.5em;
+    color: #1a73e8;
+  }
+
+  /* 段落 */
+  .wmde-markdown p {
+    margin-bottom: 1em;
+    line-height: 1.6;
+  }
+
+  /* 引用块 */
+  .wmde-markdown blockquote {
+    border-left: 4px solid #4caf50;
+    padding-left: 10px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+    color: #555;
+  }
+
+  /* 分割线 */
+  .wmde-markdown hr {
+    // border: 0;
+    height: 1px;
+    background-color: linear-gradient(to right, #ff6a00, #ffda00);
+    margin: 20px 0;
+  }
+
+  /* 列表 */
+  .wmde-markdown ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+
+  .wmde-markdown ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+  }
+
+  .wmde-markdown ul ul,
+  .wmde-markdown ol ol {
+    list-style-type: circle;
+  }
+
+  .wmde-markdown ul ul ul,
+  .wmde-markdown ol ol ol {
+    list-style-type: square;
+  }
+
+  /* 表格 */
+  .wmde-markdown table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1em;
+  }
+
+  .wmde-markdown th,
+  .wmde-markdown td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .wmde-markdown th {
+    background-color: #f2f2f2;
+  }
+
+  /* 代码块 */
+  .wmde-markdown pre {
+    background-color: #f5f5f5;
+    // border: 1px solid #ddd;
+    // border-radius: 5px;
+    padding: 10px;
+    overflow: auto;
+  }
+
+  .wmde-markdown code {
+    background-color: #f5f5f5;
+    border-radius: 3px;
+    padding: 2px 4px;
+    font-family: "Courier New", Courier, monospace;
+  }
+
+  /* 链接 */
+  .wmde-markdown a {
+    color: #1a73e8;
+    text-decoration: none;
+  }
+
+  .wmde-markdown a:hover {
+    text-decoration: underline;
+  }
+
+  /* 图片 */
+  .wmde-markdown img {
+    max-width: 100%;
+    border-radius: 5px;
+  }
+
+  /* 粗体和斜体 */
+  .wmde-markdown strong {
+    font-weight: bold;
+  }
+
+  .wmde-markdown em {
+    font-style: italic;
+  }
+
+  /* 删除线 */
+  .wmde-markdown del {
+    text-decoration: line-through;
   }
 }
